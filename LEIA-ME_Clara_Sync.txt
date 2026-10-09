@@ -1,0 +1,21 @@
+CLARA — VERSÃO COM LOGIN E SINCRONIZAÇÃO
+
+ARQUIVOS
+- FinancaClara_Sync.html: aplicativo web.
+- supabase_clara_schema.sql: estrutura segura para o banco remoto.
+
+CONFIGURAÇÃO ÚNICA DO BANCO
+1. Crie um projeto no Supabase (supabase.com) e aguarde o banco ficar disponível.
+2. No painel do projeto, abra o SQL Editor, cole todo o conteúdo de supabase_clara_schema.sql e execute.
+3. Nas configurações de API do projeto, copie o Project URL e a chave pública anon/publishable. Nunca use service_role/secret.
+4. Abra FinancaClara_Sync.html em um navegador, vá a Dados e ajustes > Login e sincronização na nuvem, cole URL e chave, e salve.
+5. Crie uma conta com e-mail e senha. Se o Supabase solicitar confirmação por e-mail, confirme e faça login.
+6. No primeiro acesso, escolha baixar os dados existentes da nuvem ou enviar os dados deste dispositivo. Depois, alterações sincronizam automaticamente; outros dispositivos consultam atualizações a cada ~20 segundos.
+7. Em cada dispositivo, abra o mesmo app, informe URL/chave pública e entre com a mesma conta.
+
+SEGURANÇA E LIMITAÇÕES
+- A tabela remota tem políticas RLS: cada usuário autenticado só pode ler e modificar sua própria linha.
+- A chave anon é pública por projeto; a proteção dos dados depende das políticas RLS fornecidas. Não exponha uma chave service_role.
+- A sincronização usa uma cópia JSON por usuário, com estratégia de última gravação. Evite fazer edições simultâneas em dispositivos diferentes.
+- O HTML acessa Supabase JS por CDN; precisa de internet para login e sincronização. Os dados locais ainda ficam disponíveis no navegador.
+- Guarde também backups JSON em Dados e ajustes.
